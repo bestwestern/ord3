@@ -9,7 +9,7 @@ import { signal } from '@preact/signals';
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
 
-const words = signal([]);
+const words = signal("loading");
 const showingAdmin= signal(false);
 const currentWord=signal("");
 ---
@@ -33,7 +33,7 @@ const currentWord=signal("");
 	</head>
 	<body>
 		<main>
-			<AdminButton showingAdmin={showingAdmin} client:visible ></AdminButton>
+			<AdminButton showingAdmin={showingAdmin} words={words} client:visible ></AdminButton>
 			<Home showingAdmin={showingAdmin} currentWord={currentWord} words={words} client:visible>
 			</Home>
 			<Admin showingAdmin={showingAdmin} words={words} client:visible>

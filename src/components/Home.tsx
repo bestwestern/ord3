@@ -34,6 +34,8 @@ export default function Home({ showingAdmin,words,currentWord }) {
     
     }
     if (showingAdmin.value) return <span></span>
+    if (words.value==="loading")return <span></span>
+    if (words.value.filter(x=>!x.archived).length<2)return <i>ikke nok ord</i>
 return	(
     <div style={{marginTop:"30px"}}>
 
