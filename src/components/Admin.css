@@ -45,19 +45,5 @@ input {
 	background-color: rgb(180, 240, 100);
 }
 
-button {
-	float: right;
-	height: 1em;
-	box-sizing: border-box;
-	padding: 0 0.5em;
-	line-height: 1;
-	background-color: transparent;
-	border: none;
-	color: rgb(170, 30, 30);
-	opacity: 0;
-	transition: opacity 0.2s;
-}
 
-label:hover button {
-	opacity: 1;
-}
+

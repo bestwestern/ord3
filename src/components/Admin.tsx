@@ -1,5 +1,5 @@
 import { h, Fragment } from 'preact';
-import './Counter.css';
+import './Admin.css';
 import { signal } from '@preact/signals';
 import { useEffect } from 'preact/hooks';
 import { createClient } from "@supabase/supabase-js";
@@ -11,12 +11,6 @@ const supabaseUrl = "https://upabdmzybbgsnbonhgmc.supabase.co";
 	supabaseKey
 	);
 const todos = signal([
-	{ id: 1, archived: false, ord: 'write some docs' },
-	{ id: 2, archived: false, ord: 'start writing JSConf talk' },
-	{ id: 3, archived: true, ord: 'buy some milk' },
-	{ id: 4, archived: false, ord: 'mow the lawn' },
-	{ id: 5, archived: false, ord: 'feed the turtle' },
-	{ id: 6, archived: false, ord: 'fix some bugs' }
 ])
 export default function Counter({ children, count }) {
 useEffect( ()=>{
@@ -62,7 +56,6 @@ todos.value = [todo, ...todos.value];
 					<label>
 				<input type="checkbox" checked={todo.archived}  />
 				{todo.ord}
-				<button onClick={e=>remove(todo)}>x</button>
 			</label>)
 	}
 		</div>
