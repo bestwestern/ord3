@@ -11,19 +11,21 @@ const supabaseUrl = "https://upabdmzybbgsnbonhgmc.supabase.co";
 	supabaseKey
 	);
 const todos = signal([
-	{ id: 1, done: false, description: 'write some docs' },
-	{ id: 2, done: false, description: 'start writing JSConf talk' },
-	{ id: 3, done: true, description: 'buy some milk' },
-	{ id: 4, done: false, description: 'mow the lawn' },
-	{ id: 5, done: false, description: 'feed the turtle' },
-	{ id: 6, done: false, description: 'fix some bugs' }
+	{ id: 1, archived: false, ord: 'write some docs' },
+	{ id: 2, archived: false, ord: 'start writing JSConf talk' },
+	{ id: 3, archived: true, ord: 'buy some milk' },
+	{ id: 4, archived: false, ord: 'mow the lawn' },
+	{ id: 5, archived: false, ord: 'feed the turtle' },
+	{ id: 6, archived: false, ord: 'fix some bugs' }
 ])
 export default function Counter({ children, count }) {
 useEffect( ()=>{
 	supabase
 	.from("ord")
-	.select("*").then(response=>{
-		console.log(response)
+	.select("*").then(({error,data})=>{
+		console.log(data)
+		todos.value=data
+		
 	})
 
 },[]);
@@ -34,8 +36,8 @@ useEffect( ()=>{
 		console.log(input.value)
 		const todo = {
 			id: uid++,
-			done: false,
-			description: input.value
+			archived: false,
+			ord: input.value
 		};
 console.log(todos.value)
 todos.value = [todo, ...todos.value];
@@ -56,22 +58,22 @@ todos.value = [todo, ...todos.value];
 	/>
 	<div class="left">
 		<h2>todo</h2>
-		{todos.value.filter((t) => !t.done).map(todo=>	
+		{todos.value.filter((t) => !t.archived).map(todo=>	
 					<label>
-				<input type="checkbox" checked={todo.done} />
-				{todo.description}
+				<input type="checkbox" checked={todo.archived}  />
+				{todo.ord}
 				<button onClick={e=>remove(todo)}>x</button>
 			</label>)
 	}
 		</div>
 
 	<div class="right">
-		<h2>done</h2>
-		{todos.value.filter((t) => t.done).map(todo=>	
+		<h2>archived</h2>
+		{todos.value.filter((t) => t.archived).map(todo=>	
 
 			<label >
-				<input type="checkbox" checked={todo.done} />
-				{todo.description}
+				<input type="checkbox" checked={todo.archived} />
+				{todo.ord}
 				<button onClick={e=>remove(todo)}>x</button>
 
 			</label>
