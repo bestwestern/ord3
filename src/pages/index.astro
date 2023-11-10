@@ -1,6 +1,7 @@
 ---
 // Component Imports
 import Admin from '../components/Admin';
+import Home from '../components/Home';
 import AdminButton from '../components/Adminbutton';
 
 import { signal } from '@preact/signals';
@@ -9,7 +10,8 @@ import { signal } from '@preact/signals';
 // https://docs.astro.build/core-concepts/astro-components/
 
 const words = signal([]);
-const showingAdmin= signal(true);
+const showingAdmin= signal(false);
+const currentWord=signal("");
 ---
 
 <html lang="en">
@@ -32,6 +34,8 @@ const showingAdmin= signal(true);
 	<body>
 		<main>
 			<AdminButton showingAdmin={showingAdmin} client:visible ></AdminButton>
+			<Home showingAdmin={showingAdmin} currentWord={currentWord} words={words} client:visible>
+			</Home>
 			<Admin showingAdmin={showingAdmin} words={words} client:visible>
 			</Admin>
 

@@ -53,7 +53,6 @@ words.value=newWords
 		
 	
 }
-	console.log(showingAdmin.value)
 if (!showingAdmin.value)return <span></span>
 	return (
 
