@@ -10,57 +10,49 @@ const supabaseUrl = "https://upabdmzybbgsnbonhgmc.supabase.co";
 	"https://upabdmzybbgsnbonhgmc.supabase.co",
 	supabaseKey
 	);
-const todos = signal([
-])
-export default function Counter({ showingAdmin, count }) {
+
+export default function Counter({ showingAdmin, words }) {
 useEffect( ()=>{
 	supabase
 	.from("ord")
 	.select("*").order('id', { ascending: false }).then(({error,data})=>{
-		console.log(data)
-		todos.value=data
-		
+		words.value=data
 	})
 
 },[]);
 
-	let uid = todos.value.length + 1;
-
 	function add(input) {
-		const todo = {
-			id: uid++,
-			archived: false,
-			ord: input.value
-		};
-console.log(todos.value)
+
+const ord=input.value
 input.value = '';
-		
 supabase
 .from('ord')
 .insert([
-	{ ord: todo.ord },
+	{ ord },
 ])
 .select().then(({data,error})=>{
 	if (error)alert ("noget gik galt - ord ikke indsat ordentlig. Genindlæs")
-	todos.value = [...data, ...todos.value];
-
+	words.value = [...data, ...words.value];
 })
-		
 	}
 function archive(todo){
 	console.log(todo)
-
+const newArchiveValue=!todo.archived;
 supabase
 .from('ord')
-.update({ archived:!todo.archived })
+.update({ archived:newArchiveValue })
 .eq('id', todo.id)
-.select()
+.select().then(({data,error})=>{
+	console.log(data,error)
+	if (error) alert("noget gik galt");
+let newWords=[...words.value];
+let changedWord=newWords.find(el=>el.id===todo.id);
+changedWord.archived=newArchiveValue;
+words.value=newWords
+})
 		
 	
 }
-	function remove(todo) {
-		todos.value = todos.value.filter((t) => t !== todo);
-	}
 	console.log(showingAdmin.value)
 if (!showingAdmin.value)return <span></span>
 	return (
@@ -72,8 +64,8 @@ if (!showingAdmin.value)return <span></span>
 		onKeyDown={e=>e.key==="Enter"&&add(e.target)}
 	/>
 	<div class="left">
-		<h2>todo</h2>
-		{todos.value.filter((t) => !t.archived).map(todo=>	
+		<h2>Viste ord</h2>
+		{words.value.filter((t) => !t.archived).map(todo=>	
 					<label>
 				<input type="checkbox" checked={todo.archived} onChange={e=>archive(todo)}  />
 				{todo.ord}
@@ -82,14 +74,12 @@ if (!showingAdmin.value)return <span></span>
 		</div>
 
 	<div class="right">
-		<h2>archived</h2>
-		{todos.value.filter((t) => t.archived).map(todo=>	
+		<h2>Skjulte</h2>
+		{words.value.filter((t) => t.archived).map(todo=>	
 
 			<label >
 				<input type="checkbox" checked={todo.archived} onChange={e=>archive(todo)} />
 				{todo.ord}
-				<button onClick={e=>remove(todo)}>x</button>
-
 			</label>
 )}
 	</div>
