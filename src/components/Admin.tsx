@@ -12,7 +12,7 @@ const supabaseUrl = "https://upabdmzybbgsnbonhgmc.supabase.co";
 	);
 const todos = signal([
 ])
-export default function Counter({ children, count }) {
+export default function Counter({ showingAdmin, count }) {
 useEffect( ()=>{
 	supabase
 	.from("ord")
@@ -41,7 +41,8 @@ todos.value = [todo, ...todos.value];
 	function remove(todo) {
 		todos.value = todos.value.filter((t) => t !== todo);
 	}
-
+	console.log(showingAdmin.value)
+if (!showingAdmin.value)return <span>.</span>
 	return (
 
 <div class="board">

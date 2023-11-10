@@ -1,6 +1,6 @@
 ---
 // Component Imports
-import Counter from '../components/Admin';
+import Admin from '../components/Admin';
 import AdminButton from '../components/Adminbutton';
 
 import { signal } from '@preact/signals';
@@ -32,9 +32,9 @@ const showingAdmin= signal(false);
 	<body>
 		<main>
 			<AdminButton showingAdmin={showingAdmin} client:visible count={count}></AdminButton>
-			<Counter count={count} client:visible>
+			<Admin showingAdmin={showingAdmin} count={count} client:visible>
 				<h1>Hello, Preact 1!</h1>
-			</Counter>
+			</Admin>
 
 		</main>
 	</body>
