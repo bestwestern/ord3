@@ -1,10 +1,12 @@
 import { h, Fragment } from 'preact';
 import './Adminbutton.css';
+import { AddCount } from './Admin';
 export default function Home({ showingAdmin,words,currentWord }) {
     const click=()=>{
         
         const currentId=currentWord.value?currentWord.value.id:0;
-        // if (currentId){
+        console.log(currentId)
+        if (currentId)AddCount(currentId)
         //     let changedWord=words.value.find(el=>el.id===CurrentId);
         //     const showcount=changedWord.showcount;
             // supabase

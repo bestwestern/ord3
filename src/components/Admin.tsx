@@ -10,7 +10,9 @@ const supabaseUrl = "https://upabdmzybbgsnbonhgmc.supabase.co";
 	"https://upabdmzybbgsnbonhgmc.supabase.co",
 	supabaseKey
 	);
-
+export function AddCount(wordId){
+	console.log({wordId})
+}
 export default function Counter({ showingAdmin, words }) {
 useEffect( ()=>{
 	supabase
