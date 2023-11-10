@@ -16,7 +16,7 @@ export default function Counter({ showingAdmin, count }) {
 useEffect( ()=>{
 	supabase
 	.from("ord")
-	.select("*").then(({error,data})=>{
+	.select("*").order('id', { ascending: false }).then(({error,data})=>{
 		console.log(data)
 		todos.value=data
 		
@@ -27,22 +27,42 @@ useEffect( ()=>{
 	let uid = todos.value.length + 1;
 
 	function add(input) {
-		console.log(input.value)
 		const todo = {
 			id: uid++,
 			archived: false,
 			ord: input.value
 		};
 console.log(todos.value)
-todos.value = [todo, ...todos.value];
-		input.value = '';
-	}
+input.value = '';
+		
+supabase
+.from('ord')
+.insert([
+	{ ord: todo.ord },
+])
+.select().then(({data,error})=>{
+	if (error)alert ("noget gik galt - ord ikke indsat ordentlig. Genindlæs")
+	todos.value = [...data, ...todos.value];
 
+})
+		
+	}
+function archive(todo){
+	console.log(todo)
+
+supabase
+.from('ord')
+.update({ archived:!todo.archived })
+.eq('id', todo.id)
+.select()
+		
+	
+}
 	function remove(todo) {
 		todos.value = todos.value.filter((t) => t !== todo);
 	}
 	console.log(showingAdmin.value)
-if (!showingAdmin.value)return <span>.</span>
+if (!showingAdmin.value)return <span></span>
 	return (
 
 <div class="board">
@@ -55,7 +75,7 @@ if (!showingAdmin.value)return <span>.</span>
 		<h2>todo</h2>
 		{todos.value.filter((t) => !t.archived).map(todo=>	
 					<label>
-				<input type="checkbox" checked={todo.archived}  />
+				<input type="checkbox" checked={todo.archived} onChange={e=>archive(todo)}  />
 				{todo.ord}
 			</label>)
 	}
@@ -66,7 +86,7 @@ if (!showingAdmin.value)return <span>.</span>
 		{todos.value.filter((t) => t.archived).map(todo=>	
 
 			<label >
-				<input type="checkbox" checked={todo.archived} />
+				<input type="checkbox" checked={todo.archived} onChange={e=>archive(todo)} />
 				{todo.ord}
 				<button onClick={e=>remove(todo)}>x</button>
 
