@@ -67,9 +67,9 @@ if (!showingAdmin.value)return <span></span>
 	<div class="left">
 		<h2>Viste ord</h2>
 		{words.value.filter((t) => !t.archived).map(todo=>	
-					<label>
+					<label >
 				<input type="checkbox" checked={todo.archived} onChange={e=>archive(todo)}  />
-				{todo.ord}
+				<span style={{marginLeft:"10px"}}>{todo.ord}</span>
 			</label>)
 	}
 		</div>
@@ -78,9 +78,9 @@ if (!showingAdmin.value)return <span></span>
 		<h2>Skjulte</h2>
 		{words.value.filter((t) => t.archived).map(todo=>	
 
-			<label >
+			<label  >
 				<input type="checkbox" checked={todo.archived} onChange={e=>archive(todo)} />
-				{todo.ord}
+				<span style={{marginLeft:"10px"}}>{todo.ord}</span>
 			</label>
 )}
 	</div>
